@@ -9,6 +9,14 @@ $ dadjokes
 How was the snow globe feeling after the storm? A little shaken.
 ```
 
+The easiest way to get the binary from the source is to just use Swift; the
+`swift run` command will build and run automatically:
+
+```
+$ swift run
+Two peanuts were walking down the street. One was a salted.
+```
+
 ### Command-Line Arguments
 
 Feeling impatient? The `-t` argument (or `--timeout`) allows you to specify a
