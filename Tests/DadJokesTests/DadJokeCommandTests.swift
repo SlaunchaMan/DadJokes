@@ -46,7 +46,7 @@ final class DadJokeCommandTests: XCTestCase {
         let errorPipe = Pipe()
         process.standardError = errorPipe
 
-        if #available(OSX 10.13, *) {
+        if #available(macOS 10.13, *) {
             try process.run()
         } else {
             process.launch()
@@ -57,7 +57,7 @@ final class DadJokeCommandTests: XCTestCase {
         let outputData: Data
         let errorData: Data
 
-        if #available(OSX 10.15, *) {
+        if #available(macOS 10.15, *) {
             outputData = try XCTUnwrap(
                 try outputPipe.fileHandleForReading.readToEnd()
             )
@@ -67,7 +67,7 @@ final class DadJokeCommandTests: XCTestCase {
 
         let output = String(data: outputData, encoding: .utf8)
 
-        if #available(OSX 10.15, *) {
+        if #available(macOS 10.15, *) {
             XCTAssertNil(try errorPipe.fileHandleForReading.readToEnd())
         } else {
             errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
@@ -98,7 +98,7 @@ final class DadJokeCommandTests: XCTestCase {
         let errorPipe = Pipe()
         process.standardError = errorPipe
 
-        if #available(OSX 10.13, *) {
+        if #available(macOS 10.13, *) {
             try process.run()
         } else {
             process.launch()
@@ -109,14 +109,14 @@ final class DadJokeCommandTests: XCTestCase {
         let outputData: Data
         let errorData: Data
 
-        if #available(OSX 10.15, *) {
+        if #available(macOS 10.15, *) {
             XCTAssertNil(try outputPipe.fileHandleForReading.readToEnd())
         } else {
             outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
             XCTAssertTrue(outputData.isEmpty)
         }
 
-        if #available(OSX 10.15, *) {
+        if #available(macOS 10.15, *) {
             errorData = try XCTUnwrap(
                 try errorPipe.fileHandleForReading.readToEnd()
             )
@@ -150,7 +150,7 @@ final class DadJokeCommandTests: XCTestCase {
         let errorPipe = Pipe()
         process.standardError = errorPipe
 
-        if #available(OSX 10.13, *) {
+        if #available(macOS 10.13, *) {
             try process.run()
         } else {
             process.launch()
@@ -161,14 +161,14 @@ final class DadJokeCommandTests: XCTestCase {
         let outputData: Data
         let errorData: Data
 
-        if #available(OSX 10.15, *) {
+        if #available(macOS 10.15, *) {
             XCTAssertNil(try outputPipe.fileHandleForReading.readToEnd())
         } else {
             outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
             XCTAssertTrue(outputData.isEmpty)
         }
 
-        if #available(OSX 10.15, *) {
+        if #available(macOS 10.15, *) {
             errorData = try XCTUnwrap(
                 try errorPipe.fileHandleForReading.readToEnd()
             )
@@ -208,7 +208,7 @@ final class DadJokeCommandTests: XCTestCase {
         let errorPipe = Pipe()
         process.standardError = errorPipe
 
-        if #available(OSX 10.13, *) {
+        if #available(macOS 10.13, *) {
             try process.run()
         } else {
             process.launch()
@@ -219,14 +219,14 @@ final class DadJokeCommandTests: XCTestCase {
         let outputData: Data
         let errorData: Data
 
-        if #available(OSX 10.15, *) {
+        if #available(macOS 10.15, *) {
             XCTAssertNil(try outputPipe.fileHandleForReading.readToEnd())
         } else {
             outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
             XCTAssertTrue(outputData.isEmpty)
         }
 
-        if #available(OSX 10.15, *) {
+        if #available(macOS 10.15, *) {
             errorData = try XCTUnwrap(
                 try errorPipe.fileHandleForReading.readToEnd()
             )
