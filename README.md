@@ -29,9 +29,11 @@ This is a super-secret dad joke!
 
 ### Development
 
-DadJokes is written in Swift using Apple’s [ArgumentParser][1] library. For
-testing, it uses XCTest, [OHHTTPStubs][2], and [GCDWebServer][3].
+DadJokes is written in Swift using Apple’s [ArgumentParser][1] library for
+parsing command-line arguments and [Alamofire][2] for networking. For testing,
+it uses XCTest, [OHHTTPStubs][2], and [GCDWebServer][3].
 
 [1]: https://github.com/apple/swift-argument-parser
-[2]: https://github.com/AliSoftware/OHHTTPStubs
-[3]: https://github.com/swisspol/GCDWebServer
+[2]: https://github.com/Alamofire/Alamofire
+[3]: https://github.com/AliSoftware/OHHTTPStubs
+[4]: https://github.com/swisspol/GCDWebServer
