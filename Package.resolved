@@ -1,0 +1,43 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Alamofire",
+        "repositoryURL": "https://github.com/Alamofire/Alamofire",
+        "state": {
+          "branch": null,
+          "revision": "fca036f7aeca07124067cb6e0c12b0ad6359e3d4",
+          "version": "5.1.0"
+        }
+      },
+      {
+        "package": "GCDWebServer",
+        "repositoryURL": "https://github.com/SlaunchaMan/GCDWebServer",
+        "state": {
+          "branch": "swift-package-manager",
+          "revision": "d5df96dd31d6c3f745b6ae5d17681172407f68f0",
+          "version": null
+        }
+      },
+      {
+        "package": "OHHTTPStubs",
+        "repositoryURL": "https://github.com/AliSoftware/OHHTTPStubs",
+        "state": {
+          "branch": null,
+          "revision": "e92b5a5746ef16add2a1424f1fc19529d9a75cde",
+          "version": "9.0.0"
+        }
+      },
+      {
+        "package": "swift-argument-parser",
+        "repositoryURL": "https://github.com/apple/swift-argument-parser",
+        "state": {
+          "branch": null,
+          "revision": "8d31a0905c346a45c87773ad50862b5b3df8dff6",
+          "version": "0.0.4"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

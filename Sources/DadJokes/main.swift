@@ -1,0 +1,3 @@
+import DadJokesCore
+
+DadJokeCommand.main()
