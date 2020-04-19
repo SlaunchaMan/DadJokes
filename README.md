@@ -39,7 +39,7 @@ This is a super-secret dad joke!
 
 DadJokes is written in Swift using Apple’s [ArgumentParser][1] library for
 parsing command-line arguments and [Alamofire][2] for networking. For testing,
-it uses XCTest, [OHHTTPStubs][2], and [GCDWebServer][3].
+it uses XCTest, [OHHTTPStubs][3], and [GCDWebServer][4].
 
 [1]: https://github.com/apple/swift-argument-parser
 [2]: https://github.com/Alamofire/Alamofire
