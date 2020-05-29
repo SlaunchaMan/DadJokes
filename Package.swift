@@ -17,7 +17,8 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-argument-parser",
                  from: "0.0.4"),
         .package(url: "https://github.com/SlaunchaMan/GCDWebServer",
-                 .branch("swift-package-manager"))
+                 .branch("swift-package-manager")),
+        .package(url: "https://github.com/lukaskubanek/LoremIpsum", from: "2.0.0")
     ],
     targets: [
         .target(
@@ -44,7 +45,8 @@ let package = Package(
             name: "DadJokesTests",
             dependencies: [
                 "DadJokes",
-                "GCDWebServer"
+                "GCDWebServer",
+                "LoremIpsum"
             ]
         )
     ]

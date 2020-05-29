@@ -1,4 +1,5 @@
 import GCDWebServer
+import LoremIpsum
 import XCTest
 
 import class Foundation.Bundle
@@ -32,9 +33,11 @@ final class DadJokeCommandTests: XCTestCase {
 
         let process = try appProcess(["-u", serverURL.absoluteString])
 
+        let joke = LoremIpsum.sentence
+
         server.addDefaultHandler(forMethod: "GET") { _ in
             return GCDWebServerDataResponse(jsonObject: [
-                "joke": "Two drums and a cymbal fall off a cliff. Ba-dump tsh!",
+                "joke": joke,
                 "status": 200,
                 "id": UUID().uuidString
             ])
@@ -74,10 +77,7 @@ final class DadJokeCommandTests: XCTestCase {
             XCTAssertTrue(errorData.isEmpty)
         }
 
-        XCTAssertEqual(
-            output,
-            "Two drums and a cymbal fall off a cliff. Ba-dump tsh!\n"
-        )
+        XCTAssertEqual(output, "\(joke)\n")
     }
 
     func testFailureReceived() throws {
