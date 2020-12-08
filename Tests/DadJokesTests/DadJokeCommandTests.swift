@@ -16,25 +16,30 @@ final class DadJokeCommandTests: XCTestCase {
         try super.setUpWithError()
 
         server = GCDWebServer()
-
-        let server = try XCTUnwrap(self.server)
-
-        XCTAssertTrue(server.start(withPort: 8080, bonjourName: nil))
     }
 
     override func tearDown() {
-        server?.stop()
+        if let server = server, server.isRunning {
+            server.stop()
+        }
+        
         server = nil
+        
+        super.tearDown()
+    }
+    
+    func startServer() throws {
+        let server = try XCTUnwrap(self.server)
+        
+        XCTAssertTrue(server.start(withPort: 8080,
+                                   bonjourName: nil))
     }
 
     func testHappyPath() throws {
         let server = try XCTUnwrap(self.server)
-        let serverURL = try XCTUnwrap(server.serverURL)
-
-        let process = try appProcess(["-u", serverURL.absoluteString])
-
+        
         let joke = LoremIpsum.sentence
-
+        
         server.addDefaultHandler(forMethod: "GET") { _ in
             return GCDWebServerDataResponse(jsonObject: [
                 "joke": joke,
@@ -42,6 +47,12 @@ final class DadJokeCommandTests: XCTestCase {
                 "id": UUID().uuidString
             ])
         }
+        
+        try startServer()
+        
+        let serverURL = try XCTUnwrap(server.serverURL)
+
+        let process = try appProcess(["-u", serverURL.absoluteString])
 
         let outputPipe = Pipe()
         process.standardOutput = outputPipe
@@ -60,7 +71,7 @@ final class DadJokeCommandTests: XCTestCase {
         let outputData: Data
         let errorData: Data
 
-        if #available(macOS 10.15, *) {
+        if #available(macOS 10.15.4, *) {
             outputData = try XCTUnwrap(
                 try outputPipe.fileHandleForReading.readToEnd()
             )
@@ -70,7 +81,7 @@ final class DadJokeCommandTests: XCTestCase {
 
         let output = String(data: outputData, encoding: .utf8)
 
-        if #available(macOS 10.15, *) {
+        if #available(macOS 10.15.4, *) {
             XCTAssertNil(try errorPipe.fileHandleForReading.readToEnd())
         } else {
             errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
@@ -82,15 +93,18 @@ final class DadJokeCommandTests: XCTestCase {
 
     func testFailureReceived() throws {
         let server = try XCTUnwrap(self.server)
-        let serverURL = try XCTUnwrap(server.serverURL)
-
-        let process = try appProcess(["-u", serverURL.absoluteString])
 
         server.addDefaultHandler(
             forMethod: "GET",
             request: GCDWebServerRequest.self) { _ in
-                return .init(statusCode: 500)
+            return .init(statusCode: 500)
         }
+        
+        try startServer()
+        
+        let serverURL = try XCTUnwrap(server.serverURL)
+
+        let process = try appProcess(["-u", serverURL.absoluteString])
 
         let outputPipe = Pipe()
         process.standardOutput = outputPipe
@@ -109,14 +123,14 @@ final class DadJokeCommandTests: XCTestCase {
         let outputData: Data
         let errorData: Data
 
-        if #available(macOS 10.15, *) {
+        if #available(macOS 10.15.4, *) {
             XCTAssertNil(try outputPipe.fileHandleForReading.readToEnd())
         } else {
             outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
             XCTAssertTrue(outputData.isEmpty)
         }
 
-        if #available(macOS 10.15, *) {
+        if #available(macOS 10.15.4, *) {
             errorData = try XCTUnwrap(
                 try errorPipe.fileHandleForReading.readToEnd()
             )
@@ -134,15 +148,18 @@ final class DadJokeCommandTests: XCTestCase {
 
     func testEmptyOutput() throws {
         let server = try XCTUnwrap(self.server)
-        let serverURL = try XCTUnwrap(server.serverURL)
-
-        let process = try appProcess(["-u", serverURL.absoluteString])
-
+        
         server.addDefaultHandler(
             forMethod: "GET",
             request: GCDWebServerRequest.self) { _ in
-                return .init(statusCode: 200)
+            return .init(statusCode: 200)
         }
+        
+        try startServer()
+        
+        let serverURL = try XCTUnwrap(server.serverURL)
+
+        let process = try appProcess(["-u", serverURL.absoluteString])
 
         let outputPipe = Pipe()
         process.standardOutput = outputPipe
@@ -161,14 +178,14 @@ final class DadJokeCommandTests: XCTestCase {
         let outputData: Data
         let errorData: Data
 
-        if #available(macOS 10.15, *) {
+        if #available(macOS 10.15.4, *) {
             XCTAssertNil(try outputPipe.fileHandleForReading.readToEnd())
         } else {
             outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
             XCTAssertTrue(outputData.isEmpty)
         }
 
-        if #available(macOS 10.15, *) {
+        if #available(macOS 10.15.4, *) {
             errorData = try XCTUnwrap(
                 try errorPipe.fileHandleForReading.readToEnd()
             )
@@ -186,12 +203,7 @@ final class DadJokeCommandTests: XCTestCase {
 
     func testTimeout() throws {
         let server = try XCTUnwrap(self.server)
-        let serverURL = try XCTUnwrap(server.serverURL)
-
-        let process = try appProcess(
-            ["-u", serverURL.absoluteString, "-t", "2"]
-        )
-
+        
         server.addDefaultHandler(forMethod: "GET") { _, completion in
             DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(4)) {
                 completion(GCDWebServerDataResponse(jsonObject: [
@@ -201,6 +213,14 @@ final class DadJokeCommandTests: XCTestCase {
                 ]))
             }
         }
+        
+        try startServer()
+        
+        let serverURL = try XCTUnwrap(server.serverURL)
+
+        let process = try appProcess(
+            ["-u", serverURL.absoluteString, "-t", "2"]
+        )
 
         let outputPipe = Pipe()
         process.standardOutput = outputPipe
@@ -219,14 +239,14 @@ final class DadJokeCommandTests: XCTestCase {
         let outputData: Data
         let errorData: Data
 
-        if #available(macOS 10.15, *) {
+        if #available(macOS 10.15.4, *) {
             XCTAssertNil(try outputPipe.fileHandleForReading.readToEnd())
         } else {
             outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
             XCTAssertTrue(outputData.isEmpty)
         }
 
-        if #available(macOS 10.15, *) {
+        if #available(macOS 10.15.4, *) {
             errorData = try XCTUnwrap(
                 try errorPipe.fileHandleForReading.readToEnd()
             )
