@@ -7,14 +7,12 @@ struct DadJokeCommand: ParsableCommand {
     static var configuration = CommandConfiguration(commandName: "dadjokes")
 
     @Option(name: .shortAndLong,
-            default: 60,
             help: "The time (in seconds) to wait for a response.")
-    var timeout: TimeInterval
+    var timeout: TimeInterval = 60
 
     @Option(name: .shortAndLong,
-            default: URL(string: "https://icanhazdadjoke.com"),
             help: "The URL from which to fetch dad jokes.")
-    var url: URL
+    var url: URL = URL(string: "https://icanhazdadjoke.com")!
 
     func run() throws {
         let operation = DadJokeOperation(timeoutInterval: timeout,
